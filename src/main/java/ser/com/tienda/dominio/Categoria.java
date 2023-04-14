@@ -15,10 +15,10 @@ import ser.com.tienda.util.Validator;
  * @version		13 de abr. de 2016
  *
  */
-@Entity
+//@Entity
 public class Categoria {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+//	@Id
+//	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id_categoria;			//identificador categoria
 	
 	private String cat_nombre;			//nombre de la categoria

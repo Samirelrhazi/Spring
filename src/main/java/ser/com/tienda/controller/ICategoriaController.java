@@ -6,5 +6,6 @@ import ser.com.tienda.dominio.Categoria;
 public interface ICategoriaController {
 	List<Categoria> leertodo();
 	Categoria crear();
+	Categoria insertarCategoria(Categoria cat); 
 	
 }

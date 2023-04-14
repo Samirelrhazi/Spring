@@ -10,18 +10,22 @@ import ser.com.tienda.repository.CategoriaRepository;
 @Service
 public class CategoriaServicio implements ICategoriaServicio {
 	@Autowired
-	CategoriaRepository categoriaRepo;
+	CategoriaRepository repositorio;
 
 	@Override
 	public List<Categoria> leertodo() {
-		return categoriaRepo.findAll();
+		return repositorio.findAll();
 	}
 
 	@Override
 	public Categoria crear(Categoria categoria) {
-		return categoriaRepo.save(categoria);
+		return repositorio.save(categoria);
 	}
 	
+	@Override
+	public Categoria insertarCategoria(Categoria cat) {
+		return repositorio.save(cat);
+	}
 	
 
 }

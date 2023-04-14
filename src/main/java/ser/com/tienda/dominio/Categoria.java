@@ -24,7 +24,7 @@ import ser.com.tienda.util.Validator;
 //@Table(name="Categoria",schema ="SELR_alumno")
 public class Categoria {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	private int id_categoria; // identificador categoria
 	@Column(name = "cat_nombre", nullable = false, columnDefinition = "VARCHAR(50)")
 	private String cat_nombre; // nombre de la categoria
@@ -33,6 +33,14 @@ public class Categoria {
 
 	public Categoria() {
 	}
+	
+
+	public Categoria( String cat_nombre, String cat_descripcion) {
+		super();
+		this.cat_nombre = cat_nombre;
+		this.cat_descripcion = cat_descripcion;
+	}
+
 
 	public boolean isValid() {
 		return !Validator.isVacio(cat_nombre) && id_categoria > 0;

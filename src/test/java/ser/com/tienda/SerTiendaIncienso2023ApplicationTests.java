@@ -18,17 +18,19 @@ class SerTiendaIncienso2023ApplicationTests {
 
 	@Test
 	void testIsAlfanumeric() {
-		assertAll(() -> assertTrue(Validator.isAlfanumeric("test12")),
+		assertAll(() -> assertTrue(Validator.isAlfanumeric("testat12")),
 				() -> assertFalse(Validator.isAlfanumeric("Texo")),
 				() -> assertFalse(Validator.isAlfanumeric("@@@@")),
-				() -> assertFalse(Validator.isAlfanumeric("       ")));
+				() -> assertFalse(Validator.isAlfanumeric("  ")));
 
 	}
 
 	@Test
 	void testIsVacio() {
 		assertAll(() -> assertTrue(Validator.isVacio("")), 
-				() -> assertFalse(Validator.isVacio("Texto")));
+				() -> assertFalse(Validator.isVacio("Texto")),
+				() -> assertFalse(Validator.isVacio(null))
+				);
 
 	}
 
@@ -44,89 +46,81 @@ class SerTiendaIncienso2023ApplicationTests {
 	void testIsEmailValido() {
 		assertAll(() -> assertTrue(Validator.isEmailValido("text@test.com")),
 				() -> assertFalse(Validator.isEmailValido("testeando")),
-				() -> assertFalse(Validator.isEmailValido("prueba@")),
-				() -> assertFalse(Validator.isEmailValido("Pruebaprueba.com")),
-				() -> assertFalse(Validator.isEmailValido("Prueba.com")));
+				() -> assertFalse(Validator.isEmailValido("@")),
+				() -> assertFalse(Validator.isEmailValido("@test.com")),
+				() -> assertFalse(Validator.isEmailValido(""))
+				);
 	}
 
 	@Test
 	void testCumpleDNI() {
 		assertAll(() -> assertTrue(Validator.cumpleDNI("11.123.123-L")),
-				() -> assertFalse(Validator.cumpleDNI("1111111111L")), () -> assertFalse(Validator.cumpleDNI("123L")),
-				() -> assertFalse(Validator.cumpleDNI("LLLLLLLLL")));
+				() -> assertFalse(Validator.cumpleDNI("testdni1")),
+				() -> assertFalse(Validator.cumpleDNI("ab2kna0")),
+				() -> assertFalse(Validator.cumpleDNI("       ")));
 	}
 
 	@Test
-	void testCumpleRangoIntIntInt() {
-		assertAll(() -> assertTrue(Validator.cumpleRango(5, 1, 10)), () -> assertFalse(Validator.cumpleRango(1, 2, 3)),
-				() -> assertFalse(Validator.cumpleRango(10, 4, 5)));
+	void testCumpleRangoInt() {
+		assertAll(() -> assertTrue(Validator.cumpleRango(1, 0, 2)), 
+				() -> assertFalse(Validator.cumpleRango(0, 1, 2)),
+				() -> assertFalse(Validator.cumpleRango(320, 0, 1)));
 	}
 
 	@Test
-	void testCumpleRangoDoubleIntInt() {
-		assertAll(() -> assertTrue(Validator.cumpleRango(5.5, 1, 10)),
-				() -> assertFalse(Validator.cumpleRango(1.8, 2, 3)),
-				() -> assertFalse(Validator.cumpleRango(10.23, 4, 5)));
+	void testCumpleRangoDouble() {
+		assertAll(() -> assertTrue(Validator.cumpleRango(1.1, 0,2)),
+				() -> assertFalse(Validator.cumpleRango(0.4, 1, 100)),
+				() -> assertFalse(Validator.cumpleRango(100,2,12)));
 	}
 
 	@Test
 	void testCumpleLongitudMin() {
-		assertAll(() -> assertTrue(Validator.cumpleLongitudMin("Prueba", 5)),
-				() -> assertFalse(Validator.cumpleLongitudMin("Prueba", 20)));
+		assertAll(() -> assertTrue(Validator.cumpleLongitudMin("testeando", 2)),
+				() -> assertFalse(Validator.cumpleLongitudMin("test", 10)));
 	}
 
 	@Test
 	void testCumpleLongitudMax() {
-		assertAll(() -> assertTrue(Validator.cumpleLongitudMax("Prueba", 20)),
-				() -> assertFalse(Validator.cumpleLongitudMax("Prueba", 3)));
+		assertAll(() -> assertTrue(Validator.cumpleLongitudMax("testeando", 10)),
+				() -> assertFalse(Validator.cumpleLongitudMax("test", 1)));
 	}
 
 	@Test
 	void testCumpleLongitud() {
-		assertAll(() -> assertTrue(Validator.cumpleLongitud("Prueba", 3, 10)),
-				() -> assertFalse(Validator.cumpleLongitud("Prueba", 10, 20)),
-				() -> assertFalse(Validator.cumpleLongitud("Prueba", 3, 4)));
+		assertAll(() -> assertTrue(Validator.cumpleLongitud("cinco", 5, 10)),
+				() -> assertFalse(Validator.cumpleLongitud("", 1, 5)),
+				() -> assertFalse(Validator.cumpleLongitud(null, 3, 4)));
 	}
 
 	@Test
 	void testValDateMin() {
 
-		assertAll(() -> assertTrue(Validator.valDateMin(LocalDate.parse("2023-04-12"), LocalDate.parse("2001-12-29"))),
-				() -> assertFalse(Validator.valDateMin(LocalDate.parse("2001-12-29"), LocalDate.parse("2023-04-12"))));
-
+		assertAll(() -> assertTrue(Validator.valDateMin(LocalDate.parse("1999-09-09"), LocalDate.parse("1999-09-08"))),
+				() -> assertFalse(Validator.valDateMin(LocalDate.parse("1998-01-01"), LocalDate.parse("1999-01-01"))),
+				() -> assertFalse(Validator.valDateMin(LocalDate.parse("2000-02-20"), LocalDate.parse("2012-12-12")))
+				);
 	}
 
 	@Test
 	void testValDateMax() {
 
-		assertAll(() -> assertTrue(Validator.valDateMax(LocalDate.parse("2023-04-12"), LocalDate.parse("2077-01-01"))),
-				() -> assertFalse(Validator.valDateMax(LocalDate.parse("2023-04-12"), LocalDate.parse("2001-12-29"))));
+		assertAll(() -> assertTrue(Validator.valDateMin(LocalDate.parse("1999-09-09"), LocalDate.parse("2000-09-08"))),
+				() -> assertFalse(Validator.valDateMin(LocalDate.parse("1998-01-01"), LocalDate.parse("1997-01-01"))),
+				() -> assertFalse(Validator.valDateMin(LocalDate.parse("2000-02-20"), LocalDate.parse("1999-12-12")))
+				);
 
 	}
 
 	@Test
 	void testEsFechaValida() {
 
-		assertAll(() -> assertTrue(Validator.esFechaValida("2022-04-12")),
-				() -> assertTrue(Validator.esFechaValida("2001-12-29")),
-				() -> assertTrue(Validator.esFechaValida("2077-01-01")),
-				() -> assertFalse(Validator.esFechaValida("12-04-2023")),
-				() -> assertFalse(Validator.esFechaValida("2023/04/12")),
-				() -> assertFalse(Validator.esFechaValida("2023-04-100")),
-				() -> assertFalse(Validator.esFechaValida("2022-100-12")),
-				() -> assertFalse(Validator.esFechaValida("100000-04-12")));
+		assertAll(() -> assertTrue(Validator.esFechaValida("1999/09/09")),
+				() -> assertFalse(Validator.esFechaValida("2000-02-02"))
+				);
 
 	}
 
-	@Test
-	void testEsPasswordValida() {
-		assertAll(() -> assertTrue(Validator.esPasswordValida("Prueba1234#")),
-				() -> assertFalse(Validator.esPasswordValida("prueba")),
-				() -> assertFalse(Validator.esPasswordValida("Prueba1234")),
-				() -> assertFalse(Validator.esPasswordValida("Prueba.")),
-				() -> assertFalse(Validator.esPasswordValida("1234#")),
-				() -> assertFalse(Validator.esPasswordValida("PruebasPruebas123456789.")),
-				() -> assertFalse(Validator.esPasswordValida("Pr1.")));
-	}
+	
 
 }

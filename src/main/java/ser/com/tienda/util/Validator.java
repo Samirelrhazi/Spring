@@ -1,6 +1,8 @@
 package ser.com.tienda.util;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -69,7 +71,7 @@ public class Validator {
 	}
 
 	public static boolean isVacio(String prueba) {
-		return prueba.isEmpty();
+		return prueba == null || prueba.isEmpty();
 	}
 
 	/*
@@ -114,7 +116,7 @@ public class Validator {
 	public static boolean isEmailValido(String email) {
 		Pattern pattern = Pattern.compile(EMAIL_PATTERN);
 		Matcher matcher = pattern.matcher(email);
-		return matcher.matches();
+		return matcher.matches() && !email.isEmpty();
 	}
 
 	/*
@@ -136,12 +138,13 @@ public class Validator {
 	public static boolean cumpleDNI(String dni) {
 		Pattern pattern = Pattern.compile(DNI_PATTERN);
 		Matcher matcher = pattern.matcher(dni);
-		if (matcher.matches()) {
-			String letra = dni.substring(dni.length() -1);
-			return dni.length() == LONGITUD_DNI && letra.matches("[a-zA-Z]") ;
+		if (!matcher.matches() && dni.length() != LONGITUD_DNI) {
+			return false;			
 		}
-		return false;
-
+		String letra = dni.substring(dni.length() -1);
+		String numeros = dni.substring(0,dni.length() -2).replace(".", "");
+		int resto = (Integer.parseInt(numeros)%23);
+		return letra.equals(LETRA_DNI.substring(resto,resto+1));
 	}
 
 	/**
@@ -189,7 +192,7 @@ public class Validator {
 		 * 
 		 **************************************************************************************/
 	public static boolean cumpleLongitudMin(String texto, int longitudMinima) {
-		return texto.length() >= longitudMinima;
+		return !isVacio(texto) &&  texto.length() >= longitudMinima;
 
 	}
 
@@ -210,7 +213,7 @@ public class Validator {
 		 * 
 		 **************************************************************************************/
 	public static boolean cumpleLongitudMax(String texto, int longitudMaxima) {
-		return texto.length() >= longitudMaxima;
+		return !isVacio(texto) && texto.length() >= longitudMaxima;
 
 	}
 
@@ -234,7 +237,7 @@ public class Validator {
 	 **************************************************************************************/
 	public static boolean cumpleLongitud(String texto, int longitudMinima, int longitudMaxima) {
 
-		return texto.length() >= longitudMinima && texto.length() <= longitudMaxima;
+		return !isVacio(texto) &&  (texto.length() >= longitudMinima && texto.length() <= longitudMaxima);
 
 	}
 
@@ -247,7 +250,7 @@ public class Validator {
 	 */
 
 	public static boolean valDateMin(LocalDate fecha, LocalDate min) {
-		return fecha.compareTo(min) >= 00;
+		return min!= null && fecha.compareTo(min) >= 0;
 
 	}
 
@@ -259,7 +262,7 @@ public class Validator {
 	 * @return
 	 */
 	public static boolean valDateMax(LocalDate fecha, LocalDate max) {
-		return fecha.compareTo(max) <= 60;
+		return max!= null &&fecha.compareTo(max) <= 0;
 
 	}
 
@@ -271,7 +274,13 @@ public class Validator {
 	 * @return
 	 */
 	public static boolean esFechaValida(String fecha) {
-		return true;
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd/mm/yyyy");
+		try {
+			formato.parse(fecha);		
+			return true;
+		} catch (DateTimeParseException e) {
+			return false;
+		}
 
 	}
 

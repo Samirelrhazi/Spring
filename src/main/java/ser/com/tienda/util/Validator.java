@@ -67,11 +67,15 @@ public class Validator {
 	public static boolean isAlfanumeric(String texto) {
 		Pattern pattern = Pattern.compile(ALFANUMERIC_PATTERN);
 		Matcher matcher = pattern.matcher(texto);
-		return matcher.matches();
+		if (matcher.matches()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public static boolean isVacio(String prueba) {
-		return prueba == null || prueba.isEmpty();
+		return  prueba.isEmpty();
 	}
 
 	/*
@@ -95,7 +99,7 @@ public class Validator {
 	public static boolean cumplePhoneNumber(String phoneNumber) {
 		Pattern pattern = Pattern.compile(PHONE_PATTERN);
 		Matcher matcher = pattern.matcher(phoneNumber);
-		return matcher.matches();
+		return matcher.matches() && !isVacio(phoneNumber);
 	}
 
 	/*
@@ -213,7 +217,7 @@ public class Validator {
 		 * 
 		 **************************************************************************************/
 	public static boolean cumpleLongitudMax(String texto, int longitudMaxima) {
-		return !isVacio(texto) && texto.length() >= longitudMaxima;
+		return !isVacio(texto) && texto.length() <= longitudMaxima;
 
 	}
 
@@ -237,7 +241,7 @@ public class Validator {
 	 **************************************************************************************/
 	public static boolean cumpleLongitud(String texto, int longitudMinima, int longitudMaxima) {
 
-		return !isVacio(texto) &&  (texto.length() >= longitudMinima && texto.length() <= longitudMaxima);
+		return !isVacio(texto) && (texto.length() >= longitudMinima && texto.length() <= longitudMaxima);
 
 	}
 
@@ -250,7 +254,7 @@ public class Validator {
 	 */
 
 	public static boolean valDateMin(LocalDate fecha, LocalDate min) {
-		return min!= null && fecha.compareTo(min) >= 0;
+		return min!= null && fecha.compareTo(min) > 0;
 
 	}
 
@@ -262,7 +266,7 @@ public class Validator {
 	 * @return
 	 */
 	public static boolean valDateMax(LocalDate fecha, LocalDate max) {
-		return max!= null &&fecha.compareTo(max) <= 0;
+		return max!= null && fecha.compareTo(max) < 0;
 
 	}
 

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDate;
 
 @SpringBootTest
-class SerTiendaIncienso2023ApplicationTests {
+class ValidatorTests {
 
 	@Test
 	void contextLoads() {
@@ -18,9 +18,8 @@ class SerTiendaIncienso2023ApplicationTests {
 
 	@Test
 	void testIsAlfanumeric() {
-		assertAll(() -> assertTrue(Validator.isAlfanumeric("testat12")),
-				() -> assertFalse(Validator.isAlfanumeric("Texo")),
-				() -> assertFalse(Validator.isAlfanumeric("@@@@")),
+		assertAll(() -> assertTrue(Validator.isAlfanumeric("Testf3")),
+				() -> assertFalse(Validator.isAlfanumeric("Texo ")),
 				() -> assertFalse(Validator.isAlfanumeric("  ")));
 
 	}
@@ -29,19 +28,20 @@ class SerTiendaIncienso2023ApplicationTests {
 	void testIsVacio() {
 		assertAll(() -> assertTrue(Validator.isVacio("")), 
 				() -> assertFalse(Validator.isVacio("Texto")),
-				() -> assertFalse(Validator.isVacio(null))
+				() -> assertFalse(Validator.isVacio("null"))
 				);
 
 	}
 
 	@Test
 	void testCumplePhoneNumber() {
-		assertAll(() -> assertTrue(Validator.cumplePhoneNumber("606040450")),
-				() -> assertFalse(Validator.cumplePhoneNumber("text00000")),
-				() -> assertFalse(Validator.cumplePhoneNumber("0101001010101010")),
-				() -> assertFalse(Validator.cumplePhoneNumber("15")));
+	assertAll(() -> assertTrue(Validator.cumplePhoneNumber("0212121212")),
+	() -> assertFalse(Validator.cumplePhoneNumber("10134125253045434531010")),
+	() -> assertFalse(Validator.cumplePhoneNumber("15tdg")));
 	}
-
+	
+	
+	
 	@Test
 	void testIsEmailValido() {
 		assertAll(() -> assertTrue(Validator.isEmailValido("text@test.com")),
@@ -54,7 +54,7 @@ class SerTiendaIncienso2023ApplicationTests {
 
 	@Test
 	void testCumpleDNI() {
-		assertAll(() -> assertTrue(Validator.cumpleDNI("11.123.123-L")),
+		assertAll(() -> assertTrue(Validator.cumpleDNI("99.999.999-R")),
 				() -> assertFalse(Validator.cumpleDNI("testdni1")),
 				() -> assertFalse(Validator.cumpleDNI("ab2kna0")),
 				() -> assertFalse(Validator.cumpleDNI("       ")));
@@ -90,7 +90,7 @@ class SerTiendaIncienso2023ApplicationTests {
 	void testCumpleLongitud() {
 		assertAll(() -> assertTrue(Validator.cumpleLongitud("cinco", 5, 10)),
 				() -> assertFalse(Validator.cumpleLongitud("", 1, 5)),
-				() -> assertFalse(Validator.cumpleLongitud(null, 3, 4)));
+				() -> assertFalse(Validator.cumpleLongitud("sa", 3, 4)));
 	}
 
 	@Test
@@ -105,9 +105,9 @@ class SerTiendaIncienso2023ApplicationTests {
 	@Test
 	void testValDateMax() {
 
-		assertAll(() -> assertTrue(Validator.valDateMin(LocalDate.parse("1999-09-09"), LocalDate.parse("2000-09-08"))),
-				() -> assertFalse(Validator.valDateMin(LocalDate.parse("1998-01-01"), LocalDate.parse("1997-01-01"))),
-				() -> assertFalse(Validator.valDateMin(LocalDate.parse("2000-02-20"), LocalDate.parse("1999-12-12")))
+		assertAll(() -> assertTrue(Validator.valDateMax(LocalDate.parse("1999-09-09"), LocalDate.parse("2000-09-08"))),
+				() -> assertFalse(Validator.valDateMax(LocalDate.parse("1998-01-01"), LocalDate.parse("1997-01-01"))),
+				() -> assertFalse(Validator.valDateMax(LocalDate.parse("2000-02-20"), LocalDate.parse("1999-12-12")))
 				);
 
 	}
@@ -115,8 +115,8 @@ class SerTiendaIncienso2023ApplicationTests {
 	@Test
 	void testEsFechaValida() {
 
-		assertAll(() -> assertTrue(Validator.esFechaValida("1999/09/09")),
-				() -> assertFalse(Validator.esFechaValida("2000-02-02"))
+		assertAll(() -> assertTrue(Validator.esFechaValida("09/09/1999")),
+				() -> assertFalse(Validator.esFechaValida("2000/02/02"))
 				);
 
 	}

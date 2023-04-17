@@ -1,87 +1,121 @@
 package ser.com.tienda.dominio;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.Column;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
+import javax.persistence.Id;
+
+import ser.com.tienda.exception.DomainException;
+import ser.com.tienda.util.ErrorMessages;
 import ser.com.tienda.util.Validator;
 
 /**
  * 
- * Nombre		Categoria
- * Descripcion	Lista de categorías
- * @author 		Miguel Garcia
- * @version		13 de abr. de 2016
+ * Nombre Categoria Descripcion Lista de categorías
+ * 
+ * @author Miguel Garcia
+ * @version 13 de abr. de 2016
  *
  */
-//@Entity
+@Entity
+//@Table(name="Categoria",schema ="SELR_alumno")
 public class Categoria {
-//	@Id
-//	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id_categoria;			//identificador categoria
-	
-	private String cat_nombre;			//nombre de la categoria
-	
-	private String cat_descripcion;		//descripcion de la categoria
-	
-	
-	public Categoria(){}
-	
-	
-	public boolean isValid(){	
-		return !Validator.isVacio(cat_nombre) &&
-				id_categoria > 0;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private int id_categoria; // identificador categoria
+	@Column(name = "cat_nombre", nullable = false, columnDefinition = "VARCHAR(50)")
+	private String cat_nombre; // nombre de la categoria
+	@Column(name = "cat_descripcion", nullable = false, columnDefinition = "VARCHAR(50) DEFAULT NULL")
+	private String cat_descripcion; // descripcion de la categoria
+
+	public Categoria() {
 	}
-	
+
+	public boolean isValid() {
+		return !Validator.isVacio(cat_nombre) && id_categoria > 0;
+	}
+
 	/**
 	 * Getter para identificador de categoria
+	 * 
 	 * @return Integer con el id de la categoria
 	 */
 	public int getId_categoria() {
 		return id_categoria;
 	}
-	
+
 	/**
 	 * Setter para identificador de categoria
 	 * 
 	 */
 	public void setId_categoria(int id_categoria) {
-		this.id_categoria = id_categoria;
+		if (id_categoria > 0) {
+			this.id_categoria = id_categoria;
+		}
 	}
-	
+
 	/**
 	 * Getter para el nombre de categoria
+	 * 
 	 * @return cadena con el nombre de la categoria
 	 */
 	public String getCat_nombre() {
 		return cat_nombre;
 	}
-	
+
 	/**
 	 * Setter para el nombre de categoria
 	 * 
 	 */
-	public void setCat_nombre(String cat_nombre) {
-		this.cat_nombre = cat_nombre;
+	public void setCat_nombre(String cat_nombre) throws DomainException {
+		if (!Validator.isVacio(cat_nombre)) {
+			if (Validator.isAlfanumeric(cat_nombre)) {
+				if (Validator.cumpleRango(cat_nombre.length(), 5, 50)) {
+					this.cat_nombre = cat_nombre;
+				}else {
+					throw new DomainException(ErrorMessages.CATERR_003);
+				}
+			}else {
+				throw new DomainException(ErrorMessages.CATERR_002);
+			}
+		}else {
+			throw new DomainException(ErrorMessages.CATERR_001);
+		}
+
 	}
-	
+
 	/**
 	 * Getter para la descripcion de categoria
+	 * 
 	 * @return cadena con la descripcion de la categoria
 	 */
 	public String getCat_descripcion() {
 		return cat_descripcion;
 	}
-	
+
 	/**
 	 * setter para la descripcion de categoria
 	 * 
 	 */
-	public void setCat_descripcion(String cat_descripcion) {
-		this.cat_descripcion = cat_descripcion;
-	}
+	public void setCat_descripcion(String cat_descripcion) throws DomainException {
+		if (!Validator.isVacio(cat_descripcion)) {
+			if (Validator.isAlfanumeric(cat_descripcion)) {
+				if (Validator.cumpleLongitudMax(cat_descripcion, 200)) {
+					this.cat_descripcion = cat_descripcion;
+				} else {
+					throw new DomainException(ErrorMessages.CATERR_003);
+				}
+			} else {
+				throw new DomainException(ErrorMessages.CATERR_002);
+			}
+		}else {
+			throw new DomainException(ErrorMessages.CATERR_001);
+		}
 
+	}
 
 	@Override
 	public int hashCode() {
@@ -92,7 +126,6 @@ public class Categoria {
 		result = prime * result + id_categoria;
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -118,12 +151,10 @@ public class Categoria {
 		return true;
 	}
 
-
 	@Override
 	public String toString() {
 		return "Categoria [id_categoria=" + id_categoria + ", cat_nombre=" + cat_nombre + ", cat_descripcion="
 				+ cat_descripcion + "]";
 	}
-	
-	
+
 }

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import ser.com.tienda.exception.DomainException;
 import ser.com.tienda.util.ErrorMessages;
@@ -16,12 +17,12 @@ import ser.com.tienda.util.Validator;
  * 
  * Nombre Categoria Descripcion Lista de categorías
  * 
- * @author Miguel Garcia
+ * @author Samir El Rhazi
  * @version 13 de abr. de 2016
  *
  */
 @Entity
-//@Table(name="Categoria",schema ="SELR_alumno")
+@Table(name="Categoria",schema ="SELR_alumno")
 public class Categoria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE)

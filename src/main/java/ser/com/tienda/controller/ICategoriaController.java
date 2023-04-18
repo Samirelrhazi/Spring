@@ -4,8 +4,10 @@ import java.util.List;
 import ser.com.tienda.dominio.Categoria;
 
 public interface ICategoriaController {
-	List<Categoria> leertodo();
-	Categoria crear();
-	Categoria insertarCategoria(Categoria cat); 
+	List<Categoria> getCategorias();
+	List<Categoria> getCategoria();
+	Categoria createCategoria();
+	Categoria deleteCategoria();
+	Categoria updateCategoria();
 	
 }

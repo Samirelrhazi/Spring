@@ -21,5 +21,7 @@ public class CategoriaServicio implements ICategoriaServicio {
 	public Categoria crear(Categoria categoria) {
 		return categoriaRepo.save(categoria);
 	}
+	
+	
 
 }

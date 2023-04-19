@@ -295,8 +295,18 @@ public class Validator {
 	 * @param password string con la contrase�a introducida
 	 * @return true si cumple con las especificaciones
 	 */
-	public static boolean esPasswordValida(String password) {
-		return true;
+	public static boolean esPasswordValida(String password){
+		Pattern pattern = Pattern.compile(PASSWORD_PATTERN);
+		Matcher matcher = pattern.matcher(password);
+		
+			return matcher.matches() ;			
+		
+	}
 
+	
+
+	public static boolean idProductoValida(String id_producto) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

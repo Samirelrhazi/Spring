@@ -1,5 +1,4 @@
 package ser.com.tienda.controller;
-
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,42 +13,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import ser.com.tienda.dominio.Categoria;
+import ser.com.tienda.dominio.Producto;
 import ser.com.tienda.exception.DomainException;
-import ser.com.tienda.servicios.ICategoriaServicio;
+import ser.com.tienda.servicios.IProductoServicio;
 @RestController
-@RequestMapping("/categoria")
-public class CategoriaController implements ICategoriaController {
+@RequestMapping("/producto")
+public class ProductoController  implements IProductoController{
 	@Autowired
-	private ICategoriaServicio catSer;
+	private IProductoServicio catSer;
 	
 	@GetMapping
-		public List<Categoria> getCategorias(){
-		return catSer.getCategorias();
+		public List<Producto> getProductos(){
+		return catSer.getProductos();
 	}
 	
 	@GetMapping(path = "/{id}")
-	public  ResponseEntity<?> getCategoria(@PathVariable Integer id) { 
-	return  catSer.getCategoria(id);
+	public  ResponseEntity<?> getProducto(@PathVariable Integer id) { 
+	return  catSer.getProducto(id);
 }
 	
 	@PostMapping
-	public @ResponseBody Categoria createCategoria(@RequestBody Categoria categoria) {
-	return catSer.createCategoria(categoria);
+	public @ResponseBody Producto createProducto(@RequestBody Producto producto) {
+	return catSer.createProducto(producto);
 
 	}
 	
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<?> updateCategoria(@RequestBody Categoria cateogiraNueva, @PathVariable Integer id) throws DomainException{
-		return catSer.updateCategoria(cateogiraNueva, id);
+	public ResponseEntity<?> updateProducto(@RequestBody Producto producto, @PathVariable Integer id) throws DomainException{
+		return catSer.updateProducto(producto, id);
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<?> deleteCategoria(@PathVariable Integer id) {
-		return catSer.deleteCategoria(id);
-
-	}
+	public ResponseEntity<?> deleteProducto(@PathVariable Integer id) {
+		return catSer.deleteProducto(id);
 
 
-	
 }
+	}
